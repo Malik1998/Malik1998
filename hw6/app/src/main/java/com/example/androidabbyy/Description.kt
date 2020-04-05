@@ -1,27 +1,22 @@
 package com.example.androidabbyy
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.example.androidabbyy.db.NoteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Thread.sleep
 
 
 class Description : Fragment() {
 
     companion object {
-        val TAG  = "DESCRIPTION"
+        val TAG = "DESCRIPTION"
 
         private val ID_KEY = "ID_KEY"
 
@@ -35,23 +30,37 @@ class Description : Fragment() {
     }
 
     val repository = MainActivity.getNoteRepository()
+    private var job: Job? = null
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
-        val view = inflater.inflate(R.layout.activity_description, container, false)
-
-        var note = repository?.getNoteWithId(1)
-        if (arguments != null) {
-            note = repository?.getNoteWithId(arguments!!.getLong(ID_KEY, 1))
-        }
-        view.findViewById<TextView>(R.id.textView3).setText(note?.text)
-        note?.drawableRes?.let {
-            view.findViewById<ImageView>(R.id.imageView2).setImageResource(it)
-        }
-
-        return view
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.activity_description, container, false)
 
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        job = GlobalScope.launch(Dispatchers.Main) {
+            // главный поток
+            var note = repository?.getNoteWithId(1) // фоновый поток
+            if (arguments != null) { // главный поток
+                note = repository?.getNoteWithId(arguments!!.getLong(ID_KEY, 1)) // фоновый поток
+            }
+            view.findViewById<TextView>(R.id.textView3).setText(note?.text) // главный поток
+            note?.drawableRes?.let {
+                // главный поток
+                view.findViewById<ImageView>(R.id.imageView2).setImageResource(it) // главный поток
+            } // главный поток
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        job?.cancel()
+    }
+
 }
