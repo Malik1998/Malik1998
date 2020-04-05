@@ -59,7 +59,7 @@ class NoteRepository(private val databaseHolder: DatabaseHolder) {
     }
 
     @SuppressLint("SimpleDateFormat")
-    suspend fun loadById(id: Long): Note = withContext(Dispatchers.IO) {
+    fun loadById(id: Long): Note {
         var cursor: Cursor? = null
         try {
             val database = databaseHolder.open()
@@ -78,7 +78,7 @@ class NoteRepository(private val databaseHolder: DatabaseHolder) {
             val date = cursor.getString(cursor.getColumnIndex(NoteContract.Columns.DATE))
             val text = cursor.getString(cursor.getColumnIndex(NoteContract.Columns.TEXT))
             val drawableRes = cursor.getInt(cursor.getColumnIndex(NoteContract.Columns.PICTURE))
-            return@withContext Note(id.toInt(), SimpleDateFormat("dd-MM-yyyy").parse(date), text, drawableRes)
+            return Note(id.toInt(), SimpleDateFormat("dd-MM-yyyy").parse(date), text, drawableRes)
         } finally {
             cursor?.close()
             databaseHolder.close()
@@ -89,9 +89,8 @@ class NoteRepository(private val databaseHolder: DatabaseHolder) {
         return loadAll()
     }
 
-    suspend fun getNoteWithId(id: Long): Note {
-      //  sleep(100000)
-        return loadById(id)
+    suspend fun getNoteWithId(id: Long): Note = withContext(Dispatchers.IO) {
+        return@withContext loadById(id)
     }
 
 }

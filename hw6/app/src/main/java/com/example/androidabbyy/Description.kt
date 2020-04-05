@@ -46,9 +46,11 @@ class Description : Fragment() {
 
         job = GlobalScope.launch(Dispatchers.Main) {
             // главный поток
-            var note = repository?.getNoteWithId(1) // фоновый поток
+            var note : Note? = null
             if (arguments != null) { // главный поток
                 note = repository?.getNoteWithId(arguments!!.getLong(ID_KEY, 1)) // фоновый поток
+            } else {
+                note = repository?.getNoteWithId(1)
             }
             view.findViewById<TextView>(R.id.textView3).setText(note?.text) // главный поток
             note?.drawableRes?.let {
