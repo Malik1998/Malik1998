@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">AndroidAbbyy</string>
+    <string name="notes">Notes</string>
+    <string name="lorep_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="day_of_hw1">2020.03.28</string>
+    <string name="android_text"> Initially developed by Android Inc., which Google bought in 2005, Android was unveiled in 2007, with the first commercial Android device launched in September 2008. The current stable version is Android 10, released on September 3, 2019. The core Android source code is known as Android Open Source Project (AOSP), which is primarily licensed under the Apache License. This has allowed variants of Android to be developed on a range of other electronics, such as game consoles, digital cameras, PCs and others, each with a specialized user interface. Some well known derivatives include Android TV for televisions and Wear OS for wearables, both developed by Google. </string>
+
+    <string name="title_activity_note_view">NoteView</string>
+    <string name="todo">TODO</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="sureToDelete">"Are you sure you want to delete?"</string>
+</resources>
